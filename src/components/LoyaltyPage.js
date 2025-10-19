@@ -327,6 +327,66 @@ const LoyaltyPage = () => {
         </Typography>
       </Card>
 
+            {/* Your Rewards - Redeemed but unused */}
+      <Accordion sx={{ mb: 2 }}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <LocalOfferIcon sx={{ mr: 2, color: 'primary.main' }} />
+            <Typography variant="h6">Your Rewards</Typography>
+          </Box>
+        </AccordionSummary>
+        <AccordionDetails>
+          {unusedRedemptions.length === 0 ? (
+            <Typography sx={{ p: 2, textAlign: 'center', color: 'text.secondary' }}>
+              No rewards yet. Redeem a reward to get started!
+            </Typography>
+          ) : (
+            <Grid container spacing={2}>
+              {paginatedUnused.map((item) => (
+                <Grid item xs={12} key={item.id}>
+                  <Paper 
+                    sx={{ 
+                      p: 2, 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'space-between',
+                      cursor: 'pointer',
+                      '&:hover': { boxShadow: 3 }
+                    }} 
+                    elevation={1}
+                    onClick={() => {
+                      setSelectedRedemption(item);
+                      setShowCouponDialog(true);
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <LocalOfferIcon sx={{ mr: 2, color: 'primary.main' }} />
+                      <Box>
+                        <Typography variant="h6">{getRewardDetails(item.reward)}</Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Spent {item.reward?.points_required || 'N/A'} points
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <ExpandMoreIcon sx={{ color: 'text.secondary' }} />
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+          )}
+          {totalPagesUnused > 1 && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+              <Pagination
+                count={totalPagesUnused}
+                page={currentPageUnused}
+                onChange={handlePageChangeUnused}
+                color="primary"
+              />
+            </Box>
+          )}
+        </AccordionDetails>
+      </Accordion>
+
       {/* Ways to Earn */}
       <Accordion defaultExpanded sx={{ mb: 2 }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -418,65 +478,6 @@ const LoyaltyPage = () => {
         </AccordionDetails>
       </Accordion>
 
-      {/* Your Rewards - Redeemed but unused */}
-      <Accordion sx={{ mb: 2 }}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <LocalOfferIcon sx={{ mr: 2, color: 'primary.main' }} />
-            <Typography variant="h6">Your Rewards</Typography>
-          </Box>
-        </AccordionSummary>
-        <AccordionDetails>
-          {unusedRedemptions.length === 0 ? (
-            <Typography sx={{ p: 2, textAlign: 'center', color: 'text.secondary' }}>
-              No rewards yet. Redeem a reward to get started!
-            </Typography>
-          ) : (
-            <Grid container spacing={2}>
-              {paginatedUnused.map((item) => (
-                <Grid item xs={12} key={item.id}>
-                  <Paper 
-                    sx={{ 
-                      p: 2, 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'space-between',
-                      cursor: 'pointer',
-                      '&:hover': { boxShadow: 3 }
-                    }} 
-                    elevation={1}
-                    onClick={() => {
-                      setSelectedRedemption(item);
-                      setShowCouponDialog(true);
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <LocalOfferIcon sx={{ mr: 2, color: 'primary.main' }} />
-                      <Box>
-                        <Typography variant="h6">{getRewardDetails(item.reward)}</Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Spent {item.reward?.points_required || 'N/A'} points
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <ExpandMoreIcon sx={{ color: 'text.secondary' }} />
-                  </Paper>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-          {totalPagesUnused > 1 && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
-              <Pagination
-                count={totalPagesUnused}
-                page={currentPageUnused}
-                onChange={handlePageChangeUnused}
-                color="primary"
-              />
-            </Box>
-          )}
-        </AccordionDetails>
-      </Accordion>
 
       {/* Activity */}
       <Accordion sx={{ mb: 2 }}>
